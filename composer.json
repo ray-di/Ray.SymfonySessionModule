@@ -1,0 +1,19 @@
+{
+    "name": "ray/symfony-session-module",
+    "description": "A Symfony Session Module for Ray.Di",
+    "keywords": [
+        "Ray.Di",
+        "Symfony Session"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yuu Kawanami",
+            "email": "yuu.kawanami@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {}
+}
