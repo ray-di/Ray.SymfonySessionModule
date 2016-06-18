@@ -1,0 +1,8 @@
+.DS_Store
+.*.swp
+*.iml
+.idea/
+build/
+vendor/
+
+!.placefolder
