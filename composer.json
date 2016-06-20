@@ -15,5 +15,8 @@
     ],
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "require": {}
+    "require": {
+        "ray/di": "~2.3",
+        "symfony/http-foundation": "~3.1"
+    }
 }

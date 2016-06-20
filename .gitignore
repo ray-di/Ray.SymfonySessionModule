@@ -2,6 +2,7 @@
 .*.swp
 *.iml
 .idea/
+composer.lock
 build/
 vendor/
 
