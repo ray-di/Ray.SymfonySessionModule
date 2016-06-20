@@ -3,6 +3,8 @@
 namespace Ray\SymfonySessionModule;
 
 use Ray\Di\ProviderInterface;
+use Ray\SymfonySessionModule\Annotation\SessionOptions;
+use Ray\SymfonySessionModule\Annotation\SessionStorage;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
@@ -25,6 +27,9 @@ class PdoSessionProvider implements ProviderInterface
      *
      * @param \PDO $pdo
      * @param array $options
+     *
+     * @SessionStorage("pdo")
+     * @SessionOptions("options")
      */
     public function __construct(\PDO $pdo, array $options = [])
     {

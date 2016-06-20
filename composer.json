@@ -18,5 +18,18 @@
     "require": {
         "ray/di": "~2.3",
         "symfony/http-foundation": "~3.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ray\\SymfonySessionModule\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ray\\SymfonySessionModule\\": "tests/"
+        }
     }
 }
