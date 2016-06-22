@@ -5,6 +5,7 @@ namespace Ray\SymfonySessionModule;
 use Ray\Di\Injector;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 
 class PdoSessionModuleTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,6 +25,14 @@ class PdoSessionModuleTest extends \PHPUnit_Framework_TestCase
         $instance = $injector->getInstance(SessionInterface::class);
 
         $this->assertInstanceOf(SessionInterface::class, $instance);
+
+        $clazz = new \ReflectionClass($instance);
+        $prop = $clazz->getProperty('storage');
+        $prop->setAccessible(true);
+        $storage = $prop->getValue($instance);
+        /* @var $storage NativeSessionStorage */
+
+        $this->assertInstanceOf(PdoSessionHandler::class, $storage->getSaveHandler());
 
         /* @var $instance SessionInterface */
         $instance->start();
