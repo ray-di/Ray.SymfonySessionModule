@@ -4,12 +4,24 @@ namespace Ray\SymfonySessionModule;
 
 use Ray\Di\AbstractModule;
 use Ray\Di\Scope;
+use Ray\SymfonySessionModule\Annotation\SessionHandler;
 use Ray\SymfonySessionModule\Annotation\SessionOptions;
 use Ray\SymfonySessionModule\Annotation\SessionStorage;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
 
 class PdoSessionModule extends AbstractModule
 {
+    /**
+     * @var \PDO
+     */
+    private $pdo;
+
+    /**
+     * @var array
+     */
+    private $options;
+
     /**
      * Constructor.
      *
@@ -18,10 +30,9 @@ class PdoSessionModule extends AbstractModule
      */
     public function __construct(\PDO $pdo, array $options = [])
     {
+        $this->pdo = $pdo;
+        $this->options = $options;
         parent::__construct();
-        
-        $this->bind(\PDO::class)->annotatedWith(SessionStorage::class)->toInstance($pdo);
-        $this->bind()->annotatedWith(SessionOptions::class)->toInstance($options);
     }
 
     /**
@@ -29,6 +40,11 @@ class PdoSessionModule extends AbstractModule
      */
     protected function configure()
     {
-        $this->bind(SessionInterface::class)->toProvider(PdoSessionProvider::class)->in(Scope::SINGLETON);
+        $this->bind()->annotatedWith(SessionStorage::class)->toInstance($this->pdo);
+        $this->bind()->annotatedWith(SessionHandler::class)->toConstructor(PdoSessionHandler::class, 'pdoOrDsn=' . SessionStorage::class);
+        
+        $this->bind()->annotatedWith(SessionOptions::class)->toInstance($this->options);
+        
+        $this->bind(SessionInterface::class)->toProvider(SessionProvider::class)->in(Scope::SINGLETON);
     }
 }

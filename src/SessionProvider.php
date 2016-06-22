@@ -3,19 +3,19 @@
 namespace Ray\SymfonySessionModule;
 
 use Ray\Di\ProviderInterface;
+use Ray\SymfonySessionModule\Annotation\SessionHandler;
 use Ray\SymfonySessionModule\Annotation\SessionOptions;
-use Ray\SymfonySessionModule\Annotation\SessionStorage;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
+use Symfony\Component\HttpFoundation\Session\Storage\Proxy\AbstractProxy;
 
-class PdoSessionProvider implements ProviderInterface
+class SessionProvider implements ProviderInterface
 {
     /**
-     * @var \PDO
+     * @var AbstractProxy|\SessionHandlerInterface
      */
-    private $pdo;
+    private $handler;
 
     /**
      * @var array
@@ -25,15 +25,15 @@ class PdoSessionProvider implements ProviderInterface
     /**
      * Constructor
      *
-     * @param \PDO $pdo
+     * @param AbstractProxy|\SessionHandlerInterface $handler
      * @param array $options
      *
-     * @SessionStorage("pdo")
+     * @SessionHandler("handler")
      * @SessionOptions("options")
      */
-    public function __construct(\PDO $pdo, array $options = [])
+    public function __construct($handler, array $options = [])
     {
-        $this->pdo = $pdo;
+        $this->handler = $handler;
         $this->options = $options;
     }
 
@@ -42,8 +42,7 @@ class PdoSessionProvider implements ProviderInterface
      */
     public function get()
     {
-        $handler = new PdoSessionHandler($this->pdo);
-        $storage = new NativeSessionStorage($this->options, $handler);
+        $storage = new NativeSessionStorage($this->options, $this->handler);
         return new Session($storage);
     }
 }
