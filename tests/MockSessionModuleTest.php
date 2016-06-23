@@ -10,8 +10,7 @@ class MockSessionModuleTest extends \PHPUnit_Framework_TestCase
 {
     public function testModule()
     {
-        $module = new MockSessionModule();
-        $injector = new Injector($module, $_ENV['TMP_DIR']);
+        $injector = new Injector(new MockSessionModule, $_ENV['TMP_DIR']);
         $instance = $injector->getInstance(SessionInterface::class);
 
         $this->assertInstanceOf(SessionInterface::class, $instance);

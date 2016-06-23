@@ -18,7 +18,7 @@
             <exclude>
                 <directory suffix=".php">src/Annotation</directory>
                 <directory suffix=".php">src/Exception</directory>
-                <directory suffix=".php">src/Inject</directory>
+                <file>src/SessionInject.php</file>
             </exclude>
         </whitelist>
     </filter>

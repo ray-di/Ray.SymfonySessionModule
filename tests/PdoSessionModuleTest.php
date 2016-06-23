@@ -32,12 +32,19 @@ class PdoSessionModuleTest extends \PHPUnit_Framework_TestCase
         $storage = $prop->getValue($instance);
         /* @var $storage NativeSessionStorage */
 
-        $this->assertInstanceOf(PdoSessionHandler::class, $storage->getSaveHandler());
+        $proxy = $storage->getSaveHandler();
+        
+        $clazz = new \ReflectionClass($proxy);
+        $prop = $clazz->getProperty('handler');
+        $prop->setAccessible(true);
+        $handler = $prop->getValue($proxy);
+
+        $this->assertInstanceOf(PdoSessionHandler::class, $handler);
 
         /* @var $instance SessionInterface */
         $instance->start();
 
-        $this->assertEquals($lifetime, $instance->getMetadataBag()->getLifetime());
         $this->assertEquals($lifetime, ini_get('session.cookie_lifetime'));
+        $this->assertEquals($lifetime, $instance->getMetadataBag()->getLifetime());
     }
 }
