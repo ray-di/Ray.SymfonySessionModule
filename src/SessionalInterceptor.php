@@ -18,9 +18,9 @@ class SessionalInterceptor implements MethodInterceptor
         $this->session->start();
 
         $metadataBag = $this->session->getMetadataBag();
-        if ($metadataBag->getLifetime() > 0
-            && $metadataBag->getLastUsed() + $metadataBag->getLifetime() * 1000 > time())
-        {
+        $lifetime = $metadataBag->getLifetime();
+
+        if ($lifetime > 0 && $metadataBag->getLastUsed() + $lifetime < time()) {
             $this->session->invalidate();
             throw new SessionExpiredException('Session has expired.');
         }
