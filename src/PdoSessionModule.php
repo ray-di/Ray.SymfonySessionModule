@@ -25,7 +25,7 @@ class PdoSessionModule extends AbstractModule
     /**
      * Constructor.
      *
-     * @param \PDO $pdo
+     * @param \PDO  $pdo
      * @param array $options
      */
     public function __construct(\PDO $pdo, array $options = [])
@@ -42,9 +42,9 @@ class PdoSessionModule extends AbstractModule
     {
         $this->bind()->annotatedWith(SessionStorage::class)->toInstance($this->pdo);
         $this->bind()->annotatedWith(SessionHandler::class)->toConstructor(PdoSessionHandler::class, 'pdoOrDsn=' . SessionStorage::class);
-        
+
         $this->bind()->annotatedWith(SessionOptions::class)->toInstance($this->options);
-        
+
         $this->bind(SessionInterface::class)->toProvider(SessionProvider::class)->in(Scope::SINGLETON);
     }
 }

@@ -33,7 +33,7 @@ class PdoSessionModuleTest extends \PHPUnit_Framework_TestCase
         /* @var $storage NativeSessionStorage */
 
         $proxy = $storage->getSaveHandler();
-        
+
         $clazz = new \ReflectionClass($proxy);
         $prop = $clazz->getProperty('handler');
         $prop->setAccessible(true);

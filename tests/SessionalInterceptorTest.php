@@ -41,7 +41,7 @@ class SessionalInterceptorTest extends \PHPUnit_Framework_TestCase
         $prop->setAccessible(true);
         $storage = $prop->getValue($session);
         /* @var $storage NativeSessionStorage */
-        
+
         $storage->setMetadataBag(new FakeMetadataBag);
 
         $interceptor = $injector->getInstance(SessionalInterceptor::class);
@@ -49,7 +49,7 @@ class SessionalInterceptorTest extends \PHPUnit_Framework_TestCase
         $interceptor->setSession($session);
 
         $object = $injector->getInstance(FakeConsumer::class);
-        
+
         $invocation = new ReflectiveMethodInvocation(
             $object,
             new \ReflectionMethod($object, 'sessionIsStarted'),

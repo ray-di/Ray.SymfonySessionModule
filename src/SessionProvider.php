@@ -26,7 +26,7 @@ class SessionProvider implements ProviderInterface
      * Constructor
      *
      * @param AbstractProxy|\SessionHandlerInterface $handler
-     * @param array $options
+     * @param array                                  $options
      *
      * @SessionHandler("handler")
      * @SessionOptions("options")
@@ -43,6 +43,7 @@ class SessionProvider implements ProviderInterface
     public function get()
     {
         $storage = new NativeSessionStorage($this->options, $this->handler);
+
         return new Session($storage);
     }
 }

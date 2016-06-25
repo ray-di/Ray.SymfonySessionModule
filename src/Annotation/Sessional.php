@@ -1,6 +1,7 @@
 <?php
 
 namespace Ray\SymfonySessionModule\Annotation;
+
 use Ray\Di\Di\Qualifier;
 
 /**
