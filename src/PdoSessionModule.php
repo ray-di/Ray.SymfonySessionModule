@@ -40,6 +40,7 @@ class PdoSessionModule extends AbstractModule
      */
     protected function configure()
     {
+        $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         $this->bind()->annotatedWith(SessionStorage::class)->toInstance($this->pdo);
         $this->bind()->annotatedWith(SessionHandler::class)->toConstructor(PdoSessionHandler::class, 'pdoOrDsn=' . SessionStorage::class);
 
