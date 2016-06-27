@@ -4,7 +4,6 @@ namespace Ray\SymfonySessionModule;
 
 use Ray\Di\AbstractModule;
 use Ray\Di\Scope;
-use Ray\SymfonySessionModule\Annotation\SessionHandler;
 use Ray\SymfonySessionModule\Annotation\SessionOptions;
 use Ray\SymfonySessionModule\Annotation\SessionStorage;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -42,7 +41,7 @@ class PdoSessionModule extends AbstractModule
     {
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         $this->bind()->annotatedWith(SessionStorage::class)->toInstance($this->pdo);
-        $this->bind()->annotatedWith(SessionHandler::class)->toConstructor(PdoSessionHandler::class, 'pdoOrDsn=' . SessionStorage::class);
+        $this->bind(\SessionHandlerInterface::class)->toConstructor(PdoSessionHandler::class, 'pdoOrDsn=' . SessionStorage::class);
 
         $this->bind()->annotatedWith(SessionOptions::class)->toInstance($this->options);
 

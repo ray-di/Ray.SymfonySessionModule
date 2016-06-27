@@ -3,17 +3,15 @@
 namespace Ray\SymfonySessionModule;
 
 use Ray\Di\ProviderInterface;
-use Ray\SymfonySessionModule\Annotation\SessionHandler;
 use Ray\SymfonySessionModule\Annotation\SessionOptions;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
-use Symfony\Component\HttpFoundation\Session\Storage\Proxy\AbstractProxy;
 
 class SessionProvider implements ProviderInterface
 {
     /**
-     * @var AbstractProxy|\SessionHandlerInterface
+     * @var \SessionHandlerInterface
      */
     private $handler;
 
@@ -25,13 +23,12 @@ class SessionProvider implements ProviderInterface
     /**
      * Constructor
      *
-     * @param AbstractProxy|\SessionHandlerInterface $handler
-     * @param array                                  $options
+     * @param \SessionHandlerInterface $handler
+     * @param array                    $options
      *
-     * @SessionHandler("handler")
      * @SessionOptions("options")
      */
-    public function __construct($handler, array $options = [])
+    public function __construct(\SessionHandlerInterface $handler, array $options = [])
     {
         $this->handler = $handler;
         $this->options = $options;
