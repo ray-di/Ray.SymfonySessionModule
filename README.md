@@ -16,23 +16,35 @@ $ composer require ray/symfony-session-module
 
 ### Module install
 
-```php
-use Ray\Di\AbstractModule;
-use Ray\SymfonySessionModule\PdoSessionModule;
+#### PdoSessionModule (e.g. for MySQL)
 
-class AppModule extends AbstractModule
-{
-    protected function configure()
-    {
-        $pdo = new \PDO('sqlite::memory:');
-        $options = [
-            'cookie_lifetime' => 60 * 60 * 24
-        ];
+1. Create `sessions` table in your database.
 
-        $this->install(new PdoSessionModule($pdo, $options));
-    }
-}
-```
+	```bash
+	$ ./bin/initPdoSession 'mysql:host=localhost;dbname=mydb' 'myname' 'mypass'
+	```
+
+2. Install module.
+
+	```php
+	use Ray\Di\AbstractModule;
+	use Ray\SymfonySessionModule\PdoSessionModule;
+
+	class AppModule extends AbstractModule
+	{
+	    protected function configure()
+	    {
+	        $pdo = new \PDO('mysql:host=localhost;dbname=mydb', 'myname', 'mypass');
+	        $options = [
+	            'cookie_secure' => 1,
+	            'cookie_httponly' => 1,
+	            'cookie_lifetime' => 60 * 60 * 24
+	        ];
+
+	        $this->install(new PdoSessionModule($pdo, $options));
+	    }
+	}
+	```
 
 ## DI trait
 

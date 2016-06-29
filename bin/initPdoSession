@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
+
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+if (!($argc === 2 || $argc === 4)) {
+    echo 'USAGE:' . PHP_EOL;
+    echo '  $ php ' . $argv[0] . ' <dsn>' . PHP_EOL;
+    echo ' or ' . PHP_EOL;
+    echo '  $ php ' . $argv[0] . ' <dsn> <username> <password>' . PHP_EOL;
+    exit(1);
+}
+
+$dsn = $argv[1];
+$user = isset($argv[2]) ? $argv[2] : null;
+$pass = isset($argv[3]) ? $argv[3] : null;
+
+$pdo = new \PDO($dsn, $user, $pass);
+$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+(new PdoSessionHandler($pdo))->createTable();
