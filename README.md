@@ -50,6 +50,79 @@ $ composer require ray/symfony-session-module
 
 * [SessionInject](https://github.com/kawanamiyuu/Ray.SymfonySessionModule/blob/1.x/src/SessionInject.php) for `Symfony\Component\HttpFoundation\Session\SessionInterface` interface
 
+## Session lifetime management
+
+For each request, your application can check whether session cookie is expired or not. If session cookie is expired, `SessionExpiredException` is thrown.
+
+### Configuration
+
+1. Install `SessionalModule`.
+
+	```php
+	use Ray\Di\AbstractModule;
+	use Ray\SymfonySessionModule\PdoSessionModule;
+	use Ray\SymfonySessionModule\SessionalModule;
+
+	class AppModule extends \Ray\Di\AbstractModule
+	{
+	    protected function configure()
+	    {
+	        $this->install(new PdoSessionModule($pdo, $options));
+	        $this->install(new SessionalModule); // <--
+	    }
+	}
+	```
+
+2. 	Mark the class/method with `@Sessional`.
+
+	When any method in the class marked with `@Sessional` is executed, session cookie will be checked.
+
+	```php
+	use Ray\SymfonySessionModule\Annotation\Sessional;
+	use Ray\SymfonySessionModule\SessionInject;
+
+	/**
+	 * @Sessional
+	 */
+	class SomeController
+	{
+	    use SessionInject;
+
+	    public function fooAction()
+	    {
+	        // session is started and session cookie is checked.
+	        $data = $this->session->get('...');
+	    }
+	}
+	```
+
+	When the method marked with `@Sessional` is executed, session cookie will be checked.
+
+	```php
+	use Ray\SymfonySessionModule\Annotation\Sessional;
+	use Ray\SymfonySessionModule\SessionInject;
+
+	class SomeController
+	{
+	    use SessionInject;
+
+	    /**
+	     * @Sessional
+	     */
+	    public function fooAction()
+	    {
+	        // session is started and session cookie is checked.
+	        $data = $this->session->get('...');
+	    }
+
+	    public function barAction()
+	    {
+	        // session is NOT started.
+	        $data = $this->session->get('...');
+	    }
+	}
+	```
+
 ## Demo
 
 ```bash
