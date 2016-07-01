@@ -20,31 +20,31 @@ $ composer require ray/symfony-session-module
 
 1. Create `sessions` table in your database.
 
-	```bash
-	$ ./bin/initPdoSession 'mysql:host=localhost;dbname=mydb' 'myname' 'mypass'
-	```
+    ```bash
+    $ ./bin/initPdoSession 'mysql:host=localhost;dbname=mydb' 'myname' 'mypass'
+    ```
 
 2. Install module.
 
-	```php
-	use Ray\Di\AbstractModule;
-	use Ray\SymfonySessionModule\PdoSessionModule;
+    ```php
+    use Ray\Di\AbstractModule;
+    use Ray\SymfonySessionModule\PdoSessionModule;
 
-	class AppModule extends AbstractModule
-	{
-	    protected function configure()
-	    {
-	        $pdo = new \PDO('mysql:host=localhost;dbname=mydb', 'myname', 'mypass');
-	        $options = [
-	            'cookie_secure' => 1,
-	            'cookie_httponly' => 1,
-	            'cookie_lifetime' => 60 * 60 * 24
-	        ];
+    class AppModule extends AbstractModule
+    {
+        protected function configure()
+        {
+            $pdo = new \PDO('mysql:host=localhost;dbname=mydb', 'myname', 'mypass');
+            $options = [
+                'cookie_secure' => 1,
+                'cookie_httponly' => 1,
+                'cookie_lifetime' => 60 * 60 * 24
+            ];
 
-	        $this->install(new PdoSessionModule($pdo, $options));
-	    }
-	}
-	```
+            $this->install(new PdoSessionModule($pdo, $options));
+        }
+    }
+    ```
 
 ## DI trait
 
@@ -58,70 +58,70 @@ For each request, your application can check whether session cookie is expired o
 
 1. Install `SessionalModule`.
 
-	```php
-	use Ray\Di\AbstractModule;
-	use Ray\SymfonySessionModule\PdoSessionModule;
-	use Ray\SymfonySessionModule\SessionalModule;
+    ```php
+    use Ray\Di\AbstractModule;
+    use Ray\SymfonySessionModule\PdoSessionModule;
+    use Ray\SymfonySessionModule\SessionalModule;
 
-	class AppModule extends \Ray\Di\AbstractModule
-	{
-	    protected function configure()
-	    {
-	        $this->install(new PdoSessionModule($pdo, $options));
-	        $this->install(new SessionalModule); // <--
-	    }
-	}
-	```
+    class AppModule extends \Ray\Di\AbstractModule
+    {
+        protected function configure()
+        {
+            $this->install(new PdoSessionModule($pdo, $options));
+            $this->install(new SessionalModule); // <--
+        }
+    }
+    ```
 
-2. 	Mark the class/method with `@Sessional`.
+2. Mark the class/method with `@Sessional`.
 
-	When any method in the class marked with `@Sessional` is executed, session cookie will be checked.
+    When any method in the class marked with `@Sessional` is executed, session cookie will be checked.
 
-	```php
-	use Ray\SymfonySessionModule\Annotation\Sessional;
-	use Ray\SymfonySessionModule\SessionInject;
+    ```php
+    use Ray\SymfonySessionModule\Annotation\Sessional;
+    use Ray\SymfonySessionModule\SessionInject;
 
-	/**
-	 * @Sessional
-	 */
-	class SomeController
-	{
-	    use SessionInject;
+    /**
+     * @Sessional
+     */
+    class SomeController
+    {
+        use SessionInject;
 
-	    public function fooAction()
-	    {
-	        // session is started and session cookie is checked.
-	        $data = $this->session->get('...');
-	    }
-	}
-	```
+        public function fooAction()
+        {
+            // session is started and session cookie is checked.
+            $data = $this->session->get('...');
+        }
+    }
+    ```
 
-	When the method marked with `@Sessional` is executed, session cookie will be checked.
+    When the method marked with `@Sessional` is executed, session cookie will be checked.
 
-	```php
-	use Ray\SymfonySessionModule\Annotation\Sessional;
-	use Ray\SymfonySessionModule\SessionInject;
+    ```php
+    use Ray\SymfonySessionModule\Annotation\Sessional;
+    use Ray\SymfonySessionModule\SessionInject;
 
-	class SomeController
-	{
-	    use SessionInject;
+    class SomeController
+    {
+        use SessionInject;
 
-	    /**
-	     * @Sessional
-	     */
-	    public function fooAction()
-	    {
-	        // session is started and session cookie is checked.
-	        $data = $this->session->get('...');
-	    }
+        /**
+         * @Sessional
+         */
+        public function fooAction()
+        {
+            // session is started and session cookie is checked.
+            $data = $this->session->get('...');
+        }
 
-	    public function barAction()
-	    {
-	        // session is NOT started.
-	        $data = $this->session->get('...');
-	    }
-	}
-	```
+        public function barAction()
+        {
+            // session is NOT started.
+            $data = $this->session->get('...');
+        }
+    }
+    ```
 
 ## Demo
 
