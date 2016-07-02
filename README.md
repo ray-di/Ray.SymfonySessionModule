@@ -63,7 +63,7 @@ For each request, your application can check whether session cookie is expired o
     use Ray\SymfonySessionModule\PdoSessionModule;
     use Ray\SymfonySessionModule\SessionalModule;
 
-    class AppModule extends \Ray\Di\AbstractModule
+    class AppModule extends AbstractModule
     {
         protected function configure()
         {
@@ -122,6 +122,25 @@ For each request, your application can check whether session cookie is expired o
         }
     }
     ```
+
+## Unit Testing
+
+`MockSessionModule` provides in-memory session mechanism for unit testing. Any session data are not persisted to the storage.
+
+```php
+use Ray\Di\AbstractModule;
+use Ray\SymfonySessionModule\MockSessionModule;
+use Ray\SymfonySessionModule\SessionalModule;
+
+class AppModule extends AbstractModule
+{
+    protected function configure()
+    {
+        $this->install(new MockSessionModule); // <--
+        $this->install(new SessionalModule);
+    }
+}
+```
 
 ## Demo
 
