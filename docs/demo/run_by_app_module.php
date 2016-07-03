@@ -1,6 +1,7 @@
 <?php
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
+use Ray\Di\AbstractModule;
 use Ray\Di\Injector;
 use Ray\SymfonySessionModule\Annotation\Sessional;
 use Ray\SymfonySessionModule\PdoSessionModule;
@@ -25,7 +26,7 @@ class Fake
     }
 }
 
-class AppModule extends \Ray\Di\AbstractModule
+class AppModule extends AbstractModule
 {
     protected function configure()
     {
