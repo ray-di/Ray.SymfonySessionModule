@@ -79,19 +79,15 @@ For each request, your application can check whether session cookie is expired o
 
     ```php
     use Ray\SymfonySessionModule\Annotation\Sessional;
-    use Ray\SymfonySessionModule\SessionInject;
 
     /**
      * @Sessional
      */
     class SomeController
     {
-        use SessionInject;
-
         public function fooAction()
         {
-            // session is started and session cookie is checked.
-            $data = $this->session->get('...');
+            // session is automatically started and session cookie is checked.
         }
     }
     ```
@@ -100,25 +96,20 @@ For each request, your application can check whether session cookie is expired o
 
     ```php
     use Ray\SymfonySessionModule\Annotation\Sessional;
-    use Ray\SymfonySessionModule\SessionInject;
 
     class SomeController
     {
-        use SessionInject;
-
         /**
          * @Sessional
          */
         public function fooAction()
         {
-            // session is started and session cookie is checked.
-            $data = $this->session->get('...');
+            // session is automatically started and session cookie is checked.
         }
 
         public function barAction()
         {
             // session is NOT started.
-            $data = $this->session->get('...');
         }
     }
     ```
@@ -153,3 +144,7 @@ $ php docs/demo/run.php
 
 * PHP 5.6+
 * hhvm
+
+## More Documents
+
+* the official documentation about [Session Management](http://symfony.com/doc/current/components/http_foundation/sessions.html) of Symfony
