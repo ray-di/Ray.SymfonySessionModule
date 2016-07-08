@@ -23,7 +23,7 @@ $ composer require ray/symfony-session-module
 1. Create `sessions` table in your database.
 
     ```bash
-    $ ./bin/initPdoSession 'mysql:host=localhost;dbname=mydb' 'myname' 'mypass'
+    $ ./vendor/ray/symfony-session-module/bin/initPdoSession 'mysql:host=localhost;dbname=mydb' 'myname' 'mypass'
     ```
 
 2. Install module.
@@ -75,9 +75,9 @@ For each request, your application can check whether session cookie is expired o
     }
     ```
 
-2. Mark the class/method with `@Sessional`.
+2. Mark the class or method with `@Sessional` annotation.
 
-    When any method in the class marked with `@Sessional` is executed, session cookie will be checked.
+    When any method in the class marked with `@Sessional` is executed, session is automatically started and session cookie is checked.
 
     ```php
     use Ray\SymfonySessionModule\Annotation\Sessional;
@@ -94,7 +94,7 @@ For each request, your application can check whether session cookie is expired o
     }
     ```
 
-    When the method marked with `@Sessional` is executed, session cookie will be checked.
+    When the method marked with `@Sessional` is executed, session is automatically started and session cookie is checked.
 
     ```php
     use Ray\SymfonySessionModule\Annotation\Sessional;
@@ -118,7 +118,7 @@ For each request, your application can check whether session cookie is expired o
 
 ## Unit Testing
 
-`MockSessionModule` provides in-memory session mechanism for unit testing. Any session data are not persisted to the storage.
+`MockSessionModule` provides *in-memory* session mechanism for unit testing. Any session data are not persisted to the storage.
 
 ```php
 use Ray\Di\AbstractModule;
